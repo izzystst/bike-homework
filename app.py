@@ -8,7 +8,7 @@ DEBUG=True
 PORT=8000
 app =Flask(__name__) #ask if  this has to be name ?
 
-app.register_blueprint(bikes, url_prefix='/api/v1/bikes')
+app.register_blueprint(bikes, url_prefix='/api/v1/bikes/')
 
 @app.route('/')
 def hi():

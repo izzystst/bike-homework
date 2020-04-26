@@ -5,7 +5,7 @@ DATABASE = SqliteDatabase('bikes.sqlite')
 class Bike(Model):
 	brand=CharField()
 	model=CharField()
-	type_bike=CharField()
+	biketype=CharField()
 	gears=SmallIntegerField()
 	brakes=BooleanField()
 
