@@ -39,3 +39,25 @@ def delete_bike(id):
 		message="deleted bike {} with id {}".format(num_rows_deleted, id),
 		status=200
 		), 200
+
+@bikes.route('<id>', methods=["PUT"])
+def update_bike(id):
+	payload = request.get_json()
+	update_query = models.Bike.update(
+		brand=payload['brand'], 
+		model=payload['model'],
+		biketype=payload['biketype'], 
+		gears=payload['gears'], 
+		brakes=payload['brakes']).where(models.Bike.id==id)
+	num_rows_modified = update_query.execute()
+	updated_bike = models.Bike.get_by_id(id)
+	update_bike_dict = model_to_dict(updated_bike)
+
+	return jsonify(
+		data=update_bike_dict,
+		message="updated dog with id {}".format(id),
+		status=200
+		), 200
+
+
+
