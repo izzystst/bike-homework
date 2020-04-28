@@ -28,3 +28,14 @@ def create_bike():
 		message="succesfully created bike",
 		status=201
 		), 201
+
+@bikes.route('/<id>', methods=['DELETE'])
+def delete_bike(id):
+	delete_query = models.Bike.delete().where(models.Bike.id==id)
+	num_rows_deleted = delete_query.execute()
+	print(num_rows_deleted)
+	return jsonify(
+		data={},
+		message="deleted bike {} with id {}".format(num_rows_deleted, id),
+		status=200
+		), 200
