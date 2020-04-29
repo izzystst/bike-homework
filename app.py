@@ -4,6 +4,7 @@ from resources.bikes import bikes
 
 import models
 from flask_cors import CORS
+from flask_login import LoginManager
 DEBUG=True
 PORT=8000
 app =Flask(__name__) #ask if  this has to be name ?
