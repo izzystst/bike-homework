@@ -8,6 +8,7 @@ from flask_login import current_user, login_required
 bikes = Blueprint('bikes', 'bikes')
 
 @bikes.route('/', methods=["GET"])
+@login_required
 def bikes_index():
 	current_user_bike_dicts = [model_to_dict(bike) for bike in current_user.bikes]
 
