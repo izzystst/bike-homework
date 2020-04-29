@@ -69,12 +69,18 @@ def login():
 			login_user(user)
 			user_dict.pop('password')
 
-		return jsonify(
-			data=user_dict,
-			message=f"logged in as {user_dict['email']}",
-			status=200
-			), 200
-
+			return jsonify(
+				data=user_dict,
+				message=f"logged in as {user_dict['email']}",
+				status=200
+				), 200
+		else:
+			print('bad pword!!')
+			return jsonify(
+				data={},
+				message="email ir password is wrong",
+				status=401
+				), 401
 	except models.DoesNotExist:
 		print(' bad username!')
 
