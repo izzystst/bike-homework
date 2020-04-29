@@ -10,6 +10,8 @@ bikes = Blueprint('bikes', 'bikes')
 @bikes.route('/', methods=["GET"])
 @login_required
 def bikes_index():
+	print('this is the current_user')
+	print(current_user.bikes)
 	current_user_bike_dicts = [model_to_dict(bike) for bike in current_user.bikes]
 
 	for bike_dict in current_user_bike_dicts:
@@ -24,6 +26,8 @@ def bikes_index():
 		}), 200
 
 @bikes.route('/', methods=['POST'])
+@login_required
+
 def create_bike():
 	payload = request.get_json()
 	print(payload)
@@ -42,7 +46,11 @@ def create_bike():
 		), 201
 
 @bikes.route('/<id>', methods=['DELETE'])
+@login_required
+# if(owpner.id)
+# if current_user.bikes.id contains id
 def delete_bike(id):
+
 	delete_query = models.Bike.delete().where(models.Bike.id==id)
 	num_rows_deleted = delete_query.execute()
 	print(num_rows_deleted)
@@ -53,6 +61,7 @@ def delete_bike(id):
 		), 200
 
 @bikes.route('<id>', methods=["PUT"])
+@login_required
 def update_bike(id):
 	payload = request.get_json()
 	update_query = models.Bike.update(
