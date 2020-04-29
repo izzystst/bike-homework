@@ -89,3 +89,13 @@ def login():
 			message="Email or password is wrong!",
 			status=401
 			), 401
+
+@users.route('/all', methods=["GET"])
+def user_index():
+	users = models.User.select()
+	user_dicts = [model_to_dict(user) for user in users]
+	for user_dict in user_dicts:
+		user_dict.pop('password')
+	print(user_dicts)
+	return jsonify(user_dicts), 200
+

@@ -17,6 +17,7 @@ class Bike(Model):
 	biketype=CharField()
 	gears=SmallIntegerField()
 	brakes=BooleanField()
+	owner=ForeignKeyField(User, backref='bikes')
 
 	class Meta:
 		database = DATABASE
