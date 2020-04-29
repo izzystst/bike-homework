@@ -4,24 +4,35 @@ import models
 from flask import Blueprint, request, jsonify
 
 from playhouse.shortcuts import model_to_dict
-
+from flask_login import current_user, login_required
 bikes = Blueprint('bikes', 'bikes')
 
 @bikes.route('/', methods=["GET"])
 def bikes_index():
-	result = models.Bike.select().dicts()
-	return jsonify([bike for bike in result])
+	current_user_bike_dicts = [model_to_dict(bike) for bike in current_user.bikes]
+
+	for bike_dict in current_user_bike_dicts:
+		bike_dict['owner'].pop('password')
+	
+	print(current_user_bike_dicts)
+
+	return jsonify({
+		'data': current_user_bike_dicts,
+		'message':f"succesfuly found {len(current_user_bike_dicts)} bikes",
+		'status': 200
+		}), 200
 
 @bikes.route('/', methods=['POST'])
 def create_bike():
 	payload = request.get_json()
 	print(payload)
-	new_bike = models.Bike.create(brand=payload['brand'], model=payload['model'], biketype=payload['biketype'], gears=payload['gears'], brakes=payload['brakes'])
+	new_bike = models.Bike.create(brand=payload['brand'], model=payload['model'], biketype=payload['biketype'], gears=payload['gears'], brakes=payload['brakes'], owner=current_user.id)
 	print(new_bike)
 	print(new_bike.__dict__)
 	print(dir(new_bike))
 
 	bike_dict = model_to_dict(new_bike)
+	bike_dict['owner'].pop('password')
 
 	return jsonify(
 		data=bike_dict,
