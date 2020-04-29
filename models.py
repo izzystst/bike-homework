@@ -23,7 +23,7 @@ class Bike(Model):
 
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([Bike], safe=True)
+	DATABASE.create_tables([User, Bike], safe=True)
 	print("connected to db and created tables")
 
 	DATABASE.close()

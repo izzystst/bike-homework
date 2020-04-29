@@ -8,6 +8,12 @@ from flask_login import LoginManager
 DEBUG=True
 PORT=8000
 app =Flask(__name__) #ask if  this has to be name ?
+
+app.secret_key="this is a secret shhhhh"
+login_manager = LoginManager()
+
+login_manager.init_app(app)
+
 CORS(bikes, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(bikes, url_prefix='/api/v1/bikes/')
 
